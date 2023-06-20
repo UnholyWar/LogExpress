@@ -42,7 +42,7 @@ namespace WebApiDeneme.Controllers
 
         }
         [HttpPut]
-        public IEnumerable<WeatherForecast> VeriCekX(int Sayi, int Elma, int Armut)
+        public IEnumerable<WeatherForecast> VeriCekX(babus abc)
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

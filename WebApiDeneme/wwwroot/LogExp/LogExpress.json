@@ -2,7 +2,16 @@
   {
     "Id": 1,
     "UserId": null,
-    "LogFullTime": "2023-06-20-14-13-49",
+    "LogFullTime": "2023-06-20-17-38-58",
+    "Parameters": "Sayi: 110\r\nELMA: 67\r\nARMUT: 45\r\n",
+    "HttpMethod": "GET",
+    "EndPointName": "WebApiDeneme.Controllers.WeatherForecastController.VeriCek (WebApiDeneme)",
+    "Response": null
+  },
+  {
+    "Id": 2,
+    "UserId": null,
+    "LogFullTime": "2023-06-20-17-43-28",
     "Parameters": "Sayi: 110\r\nELMA: 67\r\nARMUT: 45\r\n",
     "HttpMethod": "GET",
     "EndPointName": "WebApiDeneme.Controllers.WeatherForecastController.VeriCek (WebApiDeneme)",

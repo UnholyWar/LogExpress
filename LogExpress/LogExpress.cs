@@ -176,7 +176,15 @@ namespace LogExpress
                 logExpressConnectionConfigurations.Parameters = await CheckParameters(context);
                 logExpressConnectionConfigurations.HttpMethod = context.Request.Method;
                 logExpressConnectionConfigurations.EndPointName = context.Features.Get<IEndpointFeature>().Endpoint.DisplayName;
-                logExpressConnectionConfigurations.Response = context.Response.ContentType;
+                logExpressConnectionConfigurations.Response = context.Request.ContentType;
+
+                var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
+                if (endpoint != null)
+                {
+                    var endpointMetadata = endpoint.Metadata;
+                    // Burada endpointMetadata üzerinden yöntemin parametre bilgilerine erişebilirsiniz
+                    // endpointMetadata'i dolaşarak parametre bilgilerini alabilirsiniz
+                }
                 await DbRouter(logExpressConnectionConfigurations);
 
 
