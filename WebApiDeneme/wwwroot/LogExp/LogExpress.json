@@ -1,0 +1,11 @@
+[
+  {
+    "Id": 1,
+    "UserId": null,
+    "LogFullTime": "2023-06-20-14-13-49",
+    "Parameters": "Sayi: 110\r\nELMA: 67\r\nARMUT: 45\r\n",
+    "HttpMethod": "GET",
+    "EndPointName": "WebApiDeneme.Controllers.WeatherForecastController.VeriCek (WebApiDeneme)",
+    "Response": null
+  }
+]

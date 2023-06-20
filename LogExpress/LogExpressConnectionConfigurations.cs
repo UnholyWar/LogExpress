@@ -10,10 +10,11 @@ namespace LogExpress
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public string LogFullTime { get; set; }
+        public string LogFullTime { get; set; }= DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
         public string Parameters { get; set; }
         public string HttpMethod { get; set; }
         public string EndPointName { get; set; }
+        public string Response { get; set; }
        
     }
 }

@@ -104,6 +104,7 @@ namespace LogExpress
             var endpointFeature = context.Features.Get<IEndpointFeature>();
             var endpoint = endpointFeature?.Endpoint;
             var metadata = endpoint.Metadata;
+
             return metadata.OfType<LogExAttribute>().FirstOrDefault();
         }
 
@@ -112,7 +113,7 @@ namespace LogExpress
             switch (_connectionString.ToUpper())
             {
                 case "JSON":
-                   await  JsonSave(log); break;
+                    await JsonSave(log); break;
                 default:
                     break;
             }
@@ -151,30 +152,39 @@ namespace LogExpress
 
         public async Task InvokeAsync(HttpContext context)
         {
+
             if (await IsEndPointNull(context))
             {
+                LogExpressConnectionConfigurations logExpressConnectionConfigurations = new LogExpressConnectionConfigurations();
                 var isAttribute = await HasAttribute(context);
-                if (isAttribute != null)
-                {
-                    LogExpressConnectionConfigurations logExpressConnectionConfigurations = new LogExpressConnectionConfigurations();
-                    logExpressConnectionConfigurations.UserId = "";
-                    if (context.User.Identity.IsAuthenticated)
-                        logExpressConnectionConfigurations.UserId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                    else if (context.Session.Id != null)
-                        logExpressConnectionConfigurations.UserId = context.Session.Id;
-                    else
-                        logExpressConnectionConfigurations.UserId = isAttribute.UserId;
-                    logExpressConnectionConfigurations.LogFullTime = isAttribute.Time;
-                    logExpressConnectionConfigurations.Parameters = await CheckParameters(context);
-                    logExpressConnectionConfigurations.HttpMethod = context.Request.Method;
-                    logExpressConnectionConfigurations.EndPointName = context.Features.Get<IEndpointFeature>().Endpoint.DisplayName;
 
+                if (context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value == null)
+                {
+                    logExpressConnectionConfigurations.UserId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 }
+                else if (context.Session.Id != null)
+                {
+                    logExpressConnectionConfigurations.UserId = context.Session.Id;
+                }
+                else
+                {
+                    logExpressConnectionConfigurations.UserId = "Unauthorized";
+                }
+
+                //logExpressConnectionConfigurations.LogFullTime = isAttribute.Time;
+                logExpressConnectionConfigurations.LogFullTime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+                logExpressConnectionConfigurations.Parameters = await CheckParameters(context);
+                logExpressConnectionConfigurations.HttpMethod = context.Request.Method;
+                logExpressConnectionConfigurations.EndPointName = context.Features.Get<IEndpointFeature>().Endpoint.DisplayName;
+                logExpressConnectionConfigurations.Response = context.Response.ContentType;
+                await DbRouter(logExpressConnectionConfigurations);
+
+
             }
-            else
-                await _next(context);
+
+            await _next(context);
         }
     }
-   
+
 }
 
